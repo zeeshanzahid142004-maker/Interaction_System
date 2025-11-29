@@ -14,7 +14,6 @@ public class Interaction : MonoBehaviour
     private Transform _transform;
     private Interactor interactor;
     private Iinteractable currentInteractable;
-    private IHighlightable currentHighlightable;
     private RaycastHit hit;
 
     private void Awake()
@@ -37,7 +36,6 @@ public class Interaction : MonoBehaviour
     private void Update()
     {
         Iinteractable foundInteractable = null;
-        IHighlightable foundHighlightable = null;
 
         // First try SphereCast forward with QueryTriggerInteraction.Collide
         bool hitSomething = Physics.SphereCast(
@@ -57,8 +55,6 @@ public class Interaction : MonoBehaviour
             {
                 foundInteractable = hit.transform.GetComponent<Iinteractable>() ??
                                     hit.transform.GetComponentInParent<Iinteractable>();
-                foundHighlightable = hit.transform.GetComponent<IHighlightable>() ??
-                                     hit.transform.GetComponentInParent<IHighlightable>();
             }
         }
 
@@ -85,28 +81,12 @@ public class Interaction : MonoBehaviour
                     {
                         closestDistance = distance;
                         foundInteractable = interactable;
-                        foundHighlightable = col.GetComponent<IHighlightable>() ??
-                                             col.GetComponentInParent<IHighlightable>();
                     }
                 }
             }
         }
 
-        // Handle highlight/unhighlight when interactable changes
-        if (foundHighlightable != currentHighlightable)
-        {
-            if (currentHighlightable != null)
-            {
-                currentHighlightable.OnUnhighlight();
-            }
-            if (foundHighlightable != null)
-            {
-                foundHighlightable.OnHighlight();
-            }
-            currentHighlightable = foundHighlightable;
-        }
-
-        // Update current interactable and prompt
+        // Update current interactable and prompt (Interactor handles highlighting)
         if (foundInteractable != null)
         {
             currentInteractable = foundInteractable;
