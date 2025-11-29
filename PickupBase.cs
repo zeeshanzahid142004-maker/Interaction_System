@@ -32,7 +32,6 @@ public abstract class PickupBase : MonoBehaviour, Iinteractable, IHighlightable
     public Sprite interactionSprite => sprite;
 
     [SerializeField] private UnityEvent _onInteract;
-    UnityEvent Iinteractable.unityEvent { get => _onInteract; set => _onInteract = value; }
 
     public void OnHighlight()
     {
@@ -74,7 +73,7 @@ public abstract class PickupBase : MonoBehaviour, Iinteractable, IHighlightable
             Destroy(gameObject);
         }
 
-        _onInteract.Invoke();
+        _onInteract?.Invoke();
         return true;
     }
 
