@@ -15,7 +15,6 @@ public class door : MonoBehaviour, Iinteractable
     [SerializeField] private DoorSoundPlayer doorSound;
 
     [SerializeField] private UnityEvent _onInteract;
-    UnityEvent Iinteractable.unityEvent { get => _onInteract; set => _onInteract = value; }
 
     
     public bool Interact(Interactor interactor)
@@ -43,7 +42,7 @@ public class door : MonoBehaviour, Iinteractable
             doorSound.Play(isOpen);
         }
 
-        _onInteract.Invoke();
+        _onInteract?.Invoke();
         return true;
     }
 }

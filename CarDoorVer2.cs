@@ -14,7 +14,6 @@ public class CarDoorVer2 : MonoBehaviour, Iinteractable
     // Interface Implementation
     public string interactionPrompt => prompt;
     public Sprite interactionSprite => sprite;
-    UnityEvent Iinteractable.unityEvent { get => _onInteract; set => _onInteract = value; }
 
     public bool Interact(Interactor interactor)
     {
@@ -56,7 +55,7 @@ public class CarDoorVer2 : MonoBehaviour, Iinteractable
             Debug.LogError("CarDoor: CarInteractionHandler is not assigned!", this);
         }
 
-        _onInteract.Invoke();
+        _onInteract?.Invoke();
         
         return true;
     }
